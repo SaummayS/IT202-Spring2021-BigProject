@@ -78,7 +78,33 @@
         <!-- location END -->
 
         <!-- Speech START -->
-                  <div class="screen" id="speech"> A Screen for Text to Speech <br> </div>
+                  <div class="screen" id="speech"> A Screen for Text to Speech <br> 
+
+                        <div class="p-3 mb-2 bg-secondary text-white">
+                            <!-- <label for="Textarea">Enter Text Here: </label> -->
+                            <label class="mdc-text-field mdc-text-field--filled">
+                            <span class="mdc-text-field__ripple"></span>
+                            <span class="mdc-floating-label" id="input">Enter Text Here:</span>
+                            <input class="mdc-text-field__input" type="text" aria-labelledby="my-label-id">
+                            <span class="mdc-line-ripple"></span>
+                          </label>
+
+                        <!-- <textarea name="Text" placeholder= "Enter Text Here:" id="input" rows="4" cols="50"></textarea></div> -->
+                              <div class="p-3 mb-2 bg-warning text-dark">
+                            <label for="select">Choose a voice:</label>
+                            <select name="select" id="select">
+                                <option value="empty"></option>
+                            </select>
+                            <button class="mdc-button">
+                            <span class="mdc-button__ripple"></span>
+                            <i class="material-icons mdc-button__icon" aria-hidden="true"
+                              >bookmark</i
+                            >
+                            <span class="mdc-button__label" id="toEnable">Speak!</span>
+                          </button>
+                            <!-- <button type="button" id="toEnable" disabled>Speak!</button> -->
+                             </div>
+                  </div>
         <!-- Speech END -->
 
       <script>
@@ -103,6 +129,73 @@
         //   mainContentEl.querySelector('input, button').focus();
         // });
 
+        // a. when the page loads, get the available languages from the set of voices available on the device
+      const text = document.querySelector('.mdc-text-field')
+      mdc.textField.MDCTextField.attachTo(text)
+      mdc.ripple.MDCRipple.attachTo(text);
+
+      // let inputTxt = document.querySelector('#input');
+      // console.log(inputTxt);
+      let voiceSelect = document.querySelector('#select');
+
+      const button = document.querySelector('.mdc-button')
+      mdc.ripple.MDCRipple.attachTo(button);
+      console.log(button);
+      //let button = document.querySelector("#toEnable");
+      let voices;
+
+      window.speechSynthesis.onvoiceschanged = function() {
+            voices = window.speechSynthesis.getVoices();
+
+        // b. populate the select control with the options;
+
+            for(let i = 0; i < voices.length; i++) {
+             let option = document.createElement('option');
+             option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+             option.value = i;
+             option.setAttribute('data-name', voices[i].name);
+           voiceSelect.appendChild(option);
+            };
+        };
+
+        // c. add a change event handler on the select control which enables the button 
+        //    and which selects the appropriate voice
+
+         voiceSelect.onchange = (event) => {
+           //  if (event.target.value == ""){
+           //     button.disabled = true
+           //     button.setAttribute('class',"btn btn-dark");}
+
+           // if (event.target.value !== ""){
+           //     button.disabled = false
+           //     button.setAttribute('class',"btn btn-success");}
+          }
+
+        // d. add a click event handler on the button which creates or updates the 
+        //    SpeechSynthesisUtterance with the appropriate language, voice and text
+
+          button.addEventListener("click", () => {
+          textVal = document.querySelector('input').value
+          console.log(textVal);
+          let utterThis = new SpeechSynthesisUtterance(textVal);
+          //console.log(utterThis);
+          let selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+
+          for(i = 0; i < voices.length ; i++) {
+         if(voices[i].name === selectedOption) {
+            utterThis.voice = voices[i];
+            utterThis.lang = voices[i].lang;
+            utterThis.volume = 100;
+            console.log(utterThis);
+            //utterThis.rate = 100;
+          }
+        } 
+          //utterThis.voice = voices[voiceSelect.value];
+        window.speechSynthesis.speak(utterThis);
+        //console.log(utterThis);
+        //inputTxt.blur();
+      });
+
       document.querySelector("#home").style.display = "block";
 
       document.querySelectorAll("nav#nav a").forEach((anchor) => {
@@ -114,7 +207,7 @@
                   //console.log(event);
               })
               let screen = event.target.getAttribute("data-screen")
-              console.log(event.target);
+              //console.log(event.target);
               let targetScreen = document.querySelector("#" + screen);
               //console.log(targetScreen);
               targetScreen.style.display = "block";
