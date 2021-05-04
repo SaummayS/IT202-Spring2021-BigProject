@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <style>
-
+    .screen{display: none;}
     :root{
       --mdc-theme-primary: green;
     } 
@@ -34,8 +34,8 @@
       <!-- Drawer START -->
                   <aside class="mdc-drawer mdc-drawer--modal">
             <div class="mdc-drawer__content">
-              <nav class="mdc-list">
-                <a class="mdc-list-item mdc-list-item--activated" href="#" aria-current="page" tabindex="0">
+              <nav id="nav" class="mdc-list">
+                <a class="mdc-list-item mdc-list-item--activated" data-screen="home" href="#" aria-current="page" tabindex="0">
                   <span class="mdc-list-item__ripple"></span>
                   <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
                   <span class="mdc-list-item__text">Home</span>
@@ -43,12 +43,12 @@
                 <a class="mdc-list-item" href="#">
                   <span class="mdc-list-item__ripple"></span>
                   <i class="material-icons mdc-list-item__graphic" aria-hidden="true">map</i>
-                  <span class="mdc-list-item__text">Location</span>
+                  <span class="mdc-list-item__text" data-screen="location">Location</span>
                 </a>
                 <a class="mdc-list-item" href="#">
                   <span class="mdc-list-item__ripple"></span>
                   <i class="material-icons mdc-list-item__graphic" aria-hidden="true">mic</i>
-                  <span class="mdc-list-item__text">Speech</span>
+                  <span class="mdc-list-item__text" data-screen="speech">Speech</span>
                 </a>
               </nav>
             </div>
@@ -57,8 +57,29 @@
           <div class="mdc-drawer-scrim"></div> 
           <!-- Drawer END -->
       <main class="mdc-top-app-bar--fixed-adjust">
-        App content
+        <!-- App content -->
+        
       </main>
+
+        <!-- home START -->
+                  <div class="screen" id="home">
+                   <figure class="text-center">
+                  <blockquote class="blockquote">
+                    <p>Welcome to the Home Screen of the IT 202 Big Project <br> 
+                      It has three screens using MCW at the <a href="https://material.io/" class="link-primary">Google's Material Design</a><br>
+                      Please hit the Hamburger Menu tab at the navigation panel to select a screen you are interested in viewing<br>
+                      After Entering information, Please hit the Data or the Map tab to enjoy the interesting results </p>
+                  </blockquote></figure>
+                  </div>
+        <!-- home END -->
+
+        <!-- location START -->
+                  <div class="screen" id="location"> A Screen for Location <br> </div>
+        <!-- location END -->
+
+        <!-- Speech START -->
+                  <div class="screen" id="speech"> A Screen for Text to Speech <br> </div>
+        <!-- Speech END -->
 
       <script>
         const listEl = document.querySelector('.mdc-drawer .mdc-list');
@@ -78,9 +99,27 @@
           drawer.open = true;
         })
 
-        document.body.addEventListener('MDCDrawer:closed', () => {
-          mainContentEl.querySelector('input, button').focus();
-        });
+        // document.body.addEventListener('MDCDrawer:closed', () => {
+        //   mainContentEl.querySelector('input, button').focus();
+        // });
+
+      document.querySelector("#home").style.display = "block";
+
+      document.querySelectorAll("nav#nav a").forEach((anchor) => {
+          //console.log(anchor);
+          anchor.addEventListener("click", (event) => {
+              document.querySelectorAll(".screen").forEach((screen) => {
+                  screen.style.display = "none";
+                  //console.log(screen);
+                  //console.log(event);
+              })
+              let screen = event.target.getAttribute("data-screen")
+              console.log(event.target);
+              let targetScreen = document.querySelector("#" + screen);
+              //console.log(targetScreen);
+              targetScreen.style.display = "block";
+          })
+    })
       </script>
   </body>
   </html>
