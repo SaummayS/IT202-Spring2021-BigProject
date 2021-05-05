@@ -27,6 +27,7 @@
       let map;
 
       function success(position) {
+
         const circle = new google.maps.Circle({
           fillColor: "green",
           fillOpacity: 0.8,
@@ -34,6 +35,20 @@
           center: {lat:parseFloat(position.coords.latitude), lng:parseFloat(position.coords.longitude)},
           radius: 3.5,
         });
+
+        const button2 = document.querySelector('.foo-button')
+        mdc.ripple.MDCRipple.attachTo(button2);
+
+        const snackbar = document.querySelector('.mdc-snackbar')
+        const snackbarToOpen = mdc.snackbar.MDCSnackbar.attachTo(snackbar)
+
+        button2.addEventListener("click", function(){
+        let pos = "lat"+":"+parseFloat(position.coords.latitude) + "," +" lng"+":" + parseFloat(position.coords.longitude);
+        textVal = pos;
+        //console.log(textVal);
+        snackbarToOpen.labelText = "Your location coordinates are: " + textVal
+        snackbarToOpen.open()
+      })
       }
 
       function error() {
@@ -204,7 +219,19 @@
         <!-- home END -->
 
         <!-- location START -->
-                  <div class="screen" id="location"> A Screen for Location <br> </div>
+                  <div class="mdc-snackbar">
+                  <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
+                    <div class="mdc-snackbar__label" aria-atomic="false">
+                      Can't display coordinates.
+                    </div>
+                  </div>
+                 </div>
+                 <button class="mdc-button foo-button">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Show Coordinates</span>
+                  </button>
+                  <div class="screen" id="location"> A Screen for Location <br> 
+                  </div>
                   <script
                   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ3JlKCAfq3IFs7n4W6jYupLPnQFneyho&callback=initMap&libraries=&v=weekly"
                   async>
@@ -274,7 +301,7 @@
 
       const button = document.querySelector('.mdc-button')
       mdc.ripple.MDCRipple.attachTo(button);
-      console.log(button);
+     // console.log(button);
       //let button = document.querySelector("#toEnable");
       let voices;
 
