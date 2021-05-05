@@ -60,7 +60,7 @@
       mdc.textField.MDCTextField.attachTo(cField);
       mdc.ripple.MDCRipple.attachTo(cField);
 
-        let endpoint = "http://api.weatherapi.com/v1/current.json?key=3eafa0ea0521450e88941618210404&q="+lati+","+lngi+"&aqi=no";
+        let endpoint = "https://api.weatherapi.com/v1/current.json?key=3eafa0ea0521450e88941618210404&q="+lati+","+lngi+"&aqi=no";
         fetch(endpoint).then((response) => {return response.json()}).then((data)=>{
           //console.log(data.current); 
           let current = data.current;

@@ -41,3 +41,11 @@
 9.  Test: Asked a friend to review the updated speech button. 
     Feedback: Earlier they thought they couldn't identify the button but now they feel speech is not working. 
     Modification: I realized that show coordinates and speak buttons had same classes and hence eventListeners would pick only the first one. Hence changed the identification classes for Speak button.
+
+10. Test: Asked a roommate to check Weather.
+    Feedback: There should be an option for both °F and °C.
+    Modification: Added textfields to view temperature in both °F and °C.
+
+11. Test: Asked a roommate to review temperature in °F and °C.
+    Feedback: Temperature should be updated whenever location coordinates are checked by the user. 
+    Modification: Kept only a Show Coordinates button on each screen to be able to view live coordinate through snackbar and also to be able to view Weather on the respective tab. 
