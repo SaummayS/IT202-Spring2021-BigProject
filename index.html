@@ -2,6 +2,7 @@
 <html>
 <head>
     <!-- Use material-components-web from material.io -->
+    <meta charset="utf-8">
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -51,12 +52,22 @@
         snackbarToOpen.labelText = "Your location coordinates are: " + textVal
         snackbarToOpen.open()
 
+      const fField = document.querySelector('.f-field')
+      mdc.textField.MDCTextField.attachTo(fField);
+      mdc.ripple.MDCRipple.attachTo(fField);
+
+      const cField = document.querySelector('.c-field')
+      mdc.textField.MDCTextField.attachTo(cField);
+      mdc.ripple.MDCRipple.attachTo(cField);
+
         let endpoint = "http://api.weatherapi.com/v1/current.json?key=3eafa0ea0521450e88941618210404&q="+lati+","+lngi+"&aqi=no";
         fetch(endpoint).then((response) => {return response.json()}).then((data)=>{
           //console.log(data.current); 
           let current = data.current;
           let tempF = current.temp_f;
           let tempC = current.temp_c;
+          document.querySelector('input#f').value = tempF + '\u00B0 F';
+          document.querySelector('input#c').value = tempC + '\u00B0 C';
         })
         })
       }
@@ -260,7 +271,7 @@
 
                         <!-- <div class="p-3 mb-2 bg-secondary text-white"> -->
                             <!-- <label for="Textarea">Enter Text Here: </label> -->
-                            <label class="mdc-text-field mdc-text-field--filled">
+                            <label class="mdc-text-field mdc-text-field--filled foo-field">
                             <span class="mdc-text-field__ripple"></span>
                             <span class="mdc-floating-label" id="input">Enter Text Here:</span>
                             <input class="mdc-text-field__input" type="text" aria-labelledby="my-label-id">
@@ -285,7 +296,23 @@
         <!-- Speech END -->
 
         <!-- Weather START -->
-          <div class="screen" id="weather"> A Screen for displaying weather <br> </div>
+          <div class="screen" id="weather"> A Screen for displaying weather <br> 
+
+            <label class="mdc-text-field mdc-text-field--filled f-field">
+            <span class="mdc-text-field__ripple"></span>
+            <span class="mdc-floating-label" id="input">F:</span>
+            <input class="mdc-text-field__input" id="f" type="text" aria-labelledby="my-label-id">
+            <span class="mdc-line-ripple"></span>
+          </label>
+
+          <label class="mdc-text-field mdc-text-field--filled c-field">
+            <span class="mdc-text-field__ripple"></span>
+            <span class="mdc-floating-label" id="input">C:</span>
+            <input class="mdc-text-field__input" id="c" type="text" aria-labelledby="my-label-id">
+            <span class="mdc-line-ripple"></span>
+          </label>
+
+          </div>
 
         <!-- Weather END -->
 
@@ -312,7 +339,7 @@
         // });
 
         // a. when the page loads, get the available languages from the set of voices available on the device
-      const text = document.querySelector('.mdc-text-field')
+      const text = document.querySelector('.foo-field')
       mdc.textField.MDCTextField.attachTo(text)
       mdc.ripple.MDCRipple.attachTo(text);
 
