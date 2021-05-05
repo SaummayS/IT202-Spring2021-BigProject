@@ -49,3 +49,7 @@
 11. Test: Asked a roommate to review temperature in °F and °C.
     Feedback: Temperature should be updated whenever location coordinates are checked by the user. 
     Modification: Kept only a Show Coordinates button on each screen to be able to view live coordinate through snackbar and also to be able to view Weather on the respective tab. 
+
+12. Test: Asked another roommate to review weather tab via github website. 
+    Feedback: Cannot view temperature update on clicking show coordinates.
+    Modification: updated https api instead of http because of github being https.
