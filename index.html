@@ -25,7 +25,8 @@
   </style>
   <script>
       let map;
-
+      let lati;
+      let lngi;
       function success(position) {
 
         const circle = new google.maps.Circle({
@@ -35,7 +36,8 @@
           center: {lat:parseFloat(position.coords.latitude), lng:parseFloat(position.coords.longitude)},
           radius: 3.5,
         });
-
+        lati = parseFloat(position.coords.latitude);
+        lngi = parseFloat(position.coords.longitude);
         const button2 = document.querySelector('.foo-button')
         mdc.ripple.MDCRipple.attachTo(button2);
 
@@ -48,8 +50,18 @@
         //console.log(textVal);
         snackbarToOpen.labelText = "Your location coordinates are: " + textVal
         snackbarToOpen.open()
-      })
+
+        let endpoint = "http://api.weatherapi.com/v1/current.json?key=3eafa0ea0521450e88941618210404&q="+lati+","+lngi+"&aqi=no";
+        fetch(endpoint).then((response) => {return response.json()}).then((data)=>{
+          //console.log(data.current); 
+          let current = data.current;
+          let tempF = current.temp_f;
+          let tempC = current.temp_c;
+        })
+        })
       }
+      // console.log(lati);
+      // console.log(lngi);
 
       function error() {
         alert('Error! Position unavailable !');
@@ -195,6 +207,11 @@
                   <i class="material-icons mdc-list-item__graphic" aria-hidden="true">mic</i>
                   <span class="mdc-list-item__text" data-screen="speech">Speech</span>
                 </a>
+                <a class="mdc-list-item" href="#">
+                  <span class="mdc-list-item__ripple"></span>
+                  <i class="material-icons mdc-list-item__graphic" aria-hidden="true">ac_unit</i>
+                  <span class="mdc-list-item__text" data-screen="weather">Weather</span>
+                </a>
               </nav>
             </div>
           </aside>
@@ -241,7 +258,7 @@
         <!-- Speech START -->
                   <div class="screen" id="speech"> A Screen for Text to Speech <br> 
 
-                        <div class="p-3 mb-2 bg-secondary text-white">
+                        <!-- <div class="p-3 mb-2 bg-secondary text-white"> -->
                             <!-- <label for="Textarea">Enter Text Here: </label> -->
                             <label class="mdc-text-field mdc-text-field--filled">
                             <span class="mdc-text-field__ripple"></span>
@@ -251,7 +268,7 @@
                           </label>
 
                         <!-- <textarea name="Text" placeholder= "Enter Text Here:" id="input" rows="4" cols="50"></textarea></div> -->
-                              <div class="p-3 mb-2 bg-warning text-dark">
+                              <!-- <div class="p-3 mb-2 bg-warning text-dark"> -->
                             <label for="select">Choose a voice:</label>
                             <select name="select" id="select">
                                 <option value="empty"></option>
@@ -259,14 +276,18 @@
                             <button class="mdc-button foo2-button">
                             <span class="mdc-button__ripple"></span>
                             <i class="material-icons mdc-button__icon" aria-hidden="true"
-                              >bookmark</i
-                            >
+                              >bookmark</i>
                             <span class="mdc-button__label" id="toEnable">Speak!</span>
                           </button>
                             <!-- <button type="button" id="toEnable" disabled>Speak!</button> -->
-                             </div>
+                             
                   </div>
         <!-- Speech END -->
+
+        <!-- Weather START -->
+          <div class="screen" id="weather"> A Screen for displaying weather <br> </div>
+
+        <!-- Weather END -->
 
       <script>
         const listEl = document.querySelector('.mdc-drawer .mdc-list');
