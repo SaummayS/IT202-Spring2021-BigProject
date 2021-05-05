@@ -8,7 +8,7 @@
       }
     ],
     "start_url": "./index.html",
-    "scope:" '.',
+    "scope": ".",
     "display": "standalone",
     "theme_color": "green",
     "background_color": "green"
